@@ -11,34 +11,70 @@ function Gameboard() {
         }
     }
 
-    // method for getting the entire board that UI will render
+    // method for getting the entire basic board that UI will render
     const getBoard = () => board;
 
-    // set a marker (player === marker)
+    // set a marker (player === marker) X or O
     const setMarker = (row, column, player) => {
         if (board[row][column] === "?") {
             board[row][column] = player;
-        } else { // if the cell is not empty move is invalid, stop execution
+        } else { // if the cell is not empty, move is invalid, stop execution
             return;
         }
     }
 
     // print the board
     const printBoard = () => {
-        boardWithCells = board.map(row => row);
+        // goes row by row and prints the current values
+        let boardWithCells = board.map((row) => row); 
         console.log(boardWithCells);
     }
 
     return {getBoard, printBoard};
 }
 
-function Players() {
+/*
+    cell represents one square
+    ? -> empty
+    X -> playerX
+    O -> playerO
+    */
+function Cell() {
+    // default value of a cell
+    let cellValue = "?";
 
+    // change default value with players mark
+    const addMark = (player) => {
+        cellValue = player;
+    }
+
+    // get value of the cell
+    const getCell = () => cellValue;
+
+    return {addMark, getCell};
 }
 
-function Game() {
+function Game(playerName = "jan") {
+    const board = Gameboard();
 
+    // players info
+    const players = [
+        {
+            name: playerName,
+            mark: "X"
+        },
+        {
+            name: "computer",
+            mark: "O"
+        }
+    ];
+
+    // who will start the game
+    let activePlayer = players[0];
+
+    const getActivePlayer = () => activePlayer;
+
+    const startGame = () => {
+        console.log(`Game begins ${getActivePlayer.name} with mark: " ${getActivePlayer.mark} "`);
+    }
 }
-
-Gameboard();
-Gameboard.printBoard();
