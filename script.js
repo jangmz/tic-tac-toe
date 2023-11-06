@@ -18,10 +18,18 @@ function Gameboard() {
     const setMarker = (row, column, player) => {
         if (board[row][column] === "?") {
             board[row][column] = player;
+        } else { // if the cell is not empty move is invalid, stop execution
+            return;
         }
     }
 
-    return {getBoard};
+    // print the board
+    const printBoard = () => {
+        boardWithCells = board.map(row => row);
+        console.log(boardWithCells);
+    }
+
+    return {getBoard, printBoard};
 }
 
 function Players() {
@@ -33,3 +41,4 @@ function Game() {
 }
 
 Gameboard();
+Gameboard.printBoard();
