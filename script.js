@@ -72,9 +72,22 @@ function Game(playerName = "jan") {
     // who will start the game
     let activePlayer = players[0];
 
-    const getActivePlayer = () => activePlayer;
+    //const getActivePlayer = () => activePlayer;
 
     const startGame = () => {
-        console.log(`Game begins ${getActivePlayer.name} with mark: " ${getActivePlayer.mark} "`);
+        console.log(`Start of the game! \n Turn: ${activePlayer.name} with mark: ${activePlayer.mark}`);
+        board.printBoard();
+        playRound();
     }
+
+    const playRound = () => {
+        let col = prompt("Select column");
+        let row = prompt("Select row");
+        
+    }
+
+    return {startGame};
 }
+
+const game = Game();
+game.startGame();
