@@ -13,17 +13,21 @@
     <title>Tic Tac Toe</title>
 </head>
 <body>
+    <h1>Tic Tac Toe</h1>
     <div class="container">
+        <label for="name">Player</label>
+        <input type="text" id="player-name">
+        <h3>Select your mark</h3>
         <div class="mark-selection">
-            <button class="mark-sel-btn">X</button>
-            <button class="mark-sel-btn">O</button>
+            <input type="button" id="x" class="mark-sel-btn" value="X"> 
+            <input type="button" id="o" class="mark-sel-btn" value="O">
         </div>
-        <div class="gameboard">
-
+        <div class="game-control">
+            <button id="start-btn" class="start-btn">Start Game</button>
+            <button id="reset-btn" class="reset-btn">Reset Game</button>
         </div>
-        <div class="reset">
-            <button class="reset-btn">Reset</button>
-        </div>
+        <div class="gameboard"></div>
+        <div id="result"></div>
     </div>   
 </body>
 </html>
