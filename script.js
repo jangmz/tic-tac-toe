@@ -18,19 +18,21 @@ function Gameboard() {
     const setMarker = (row, column, player) => {
         if (board[row][column] === "?") {
             board[row][column] = player;
-        } else { // if the cell is not empty, move is invalid, stop execution
-            return;
+            return true;
+        } else { // if the cell is not empty, move is invalid
+            alert("Cell unavailable, try again!");
+            return false;
         }
     }
 
     // print the board
     const printBoard = () => {
         // goes row by row and prints the current values
-        let boardWithCells = board.map((row) => row); 
-        console.log(boardWithCells);
+        let updatedBoard = board.map((row) => row); 
+        console.log(updatedBoard);
     }
 
-    return {getBoard, printBoard};
+    return {getBoard, setMarker, printBoard};
 }
 
 /*
@@ -38,7 +40,7 @@ function Gameboard() {
     ? -> empty
     X -> playerX
     O -> playerO
-    */
+    
 function Cell() {
     // default value of a cell
     let cellValue = "?";
@@ -53,6 +55,7 @@ function Cell() {
 
     return {addMark, getCell};
 }
+*/
 
 function Game(playerName = "jan") {
     const board = Gameboard();
@@ -72,22 +75,34 @@ function Game(playerName = "jan") {
     // who will start the game
     let activePlayer = players[0];
 
-    //const getActivePlayer = () => activePlayer;
+    // switch active players
+    const switchActivePlayer = () => {
+        // returns the other player
+        const newActivePlayer = players.filter((player) => player.mark != activePlayer.mark);
+        // sets the returned player to be the active player
+        activePlayer = newActivePlayer[0];
+        alert(`It's your turn ${activePlayer.name}`);
+    }
 
+    // start of the game
     const startGame = () => {
         console.log(`Start of the game! \n Turn: ${activePlayer.name} with mark: ${activePlayer.mark}`);
-        board.printBoard();
         playRound();
     }
 
     const playRound = () => {
-        let col = prompt("Select column");
-        let row = prompt("Select row");
-        
+        board.printBoard();
+        let col, row;
+        do {
+            col = prompt("Select column");
+            row = prompt("Select row");
+        } while(!board.setMarker(row, col, activePlayer.mark)); 
+        switchActivePlayer();
     }
 
-    return {startGame};
+    return {startGame, playRound};
 }
 
 const game = Game();
 game.startGame();
+game.playRound();
