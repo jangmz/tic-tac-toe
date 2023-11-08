@@ -57,10 +57,17 @@ h3 {
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 }
 .cell {
-    height: 140px;
-    width: 140px;
+    height: 145px;
+    width: 145px;
     background-color:rgb(88, 184, 243);
+    font-size: 60px;
+    font-weight: bold;
+    border-radius: 10px;
 
     justify-self: center;
     align-self: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -1,6 +1,6 @@
 // GAMEBOARD MODULE
 const Gameboard = (() => {
-    const gameboard = ["X","O","X","X","O","O","X","O","X"];
+    const gameboard = ["","","","","","","","",""];
     
     // displays the gameboard on the DOM
     const render = () => {
@@ -8,17 +8,34 @@ const Gameboard = (() => {
         gameboard.forEach((cellContent, index) => {
             // create a div element with class cell
             let cell = document.createElement("div");
+            // adds class for easier styling and id "cell-?" ? -> index number in array 
             cell.classList.add("cell");
-            // adds id "cell-?" ? -> index number in array 
-            cell.setAttribute("id", `cell-${index}`);
-            // adds what ever content is in that index and displays it in DOM
+            cell.setAttribute("id", `${index}`);
+            // adds what ever content is in that index and displays it in page
             cell.textContent = cellContent;
-
+            // add an event listener for click and append the cell to the gameboard
+            cell.addEventListener("click", gameControler.cellClick);
             board.appendChild(cell);
         });
     }
 
-    return { render }
+    // deletes current board display and re-renders it
+    const refreshBoard = () => {
+        const board = document.querySelector(".gameboard");
+        const cells = document.querySelectorAll(".cell");
+        cells.forEach(cell => {
+            board.removeChild(cell);
+        })
+        render();
+    }
+
+    // updates the cell with a new player mark
+    const updateCell = (cellIndex, playerMark) => {
+        gameboard[cellIndex] = playerMark;
+        refreshBoard();
+    }
+
+    return { render, updateCell }
 })();
 
 // PLAYER CREATION FACTORY FUNCTION
@@ -50,8 +67,19 @@ const gameControler = (() => {
         Gameboard.render();
     }
 
+    // get the current player mark
+
+
+    // when click on the board happens
+    const cellClick = (event) => {
+        //cell index
+        let index = event.target.id;
+        Gameboard.updateCell(index, players[currentPlayerIndex].mark);
+    }
+
     return {
-        startGame
+        startGame,
+        cellClick
     }
 })();
 
