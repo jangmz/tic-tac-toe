@@ -52,9 +52,15 @@ h3 {
     border-radius: 10px;
     box-shadow: 0 0 10px black;
     color: white;
+
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 }
 .cell {
     height: 140px;
     width: 140px;
     background-color:rgb(88, 184, 243);
+
+    justify-self: center;
+    align-self: center;
 }
