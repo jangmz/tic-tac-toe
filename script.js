@@ -17,8 +17,10 @@ const Gameboard = (() => {
             cell.setAttribute("id", `${index}`);
             // adds what ever content is in that index and displays it in page
             cell.textContent = cellContent;
-            // add an event listener for click and append the cell to the gameboard
-            cell.addEventListener("click", gameControler.cellClick);
+            // add an event listener for click if the cell is empty
+            if (cellContent === "") {
+                cell.addEventListener("click", gameControler.cellClick);
+            }            
             board.appendChild(cell);
         });
     }
@@ -39,7 +41,10 @@ const Gameboard = (() => {
         refreshBoard();
     }
 
-    return { render, updateCell }
+    // returns gameboard array
+    const getGameboardArray = () => gameboard;
+
+    return { render, updateCell, getGameboardArray }
 })();
 
 // FACTORY FUNCTION FOR PLAYER CREATION
@@ -71,11 +76,43 @@ const gameControler = (() => {
         // render the board
         Gameboard.render();
     }
+
+    // reset the game
+    const resetGame = () => {
+
+    }
+
     // when click on the board happens
     const cellClick = (event) => {
-        //cell index
+        //gets index of the clicked cell
         let index = event.target.id;
         Gameboard.updateCell(index, players[currentPlayerIndex].mark);
+        // switch the current player
+        currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
+
+        // check if the current player is computer and call its function
+        if (players[currentPlayerIndex].name === "Computer") {
+            let cellIndex = computerChoice();
+            Gameboard.updateCell(cellIndex, players[currentPlayerIndex].mark);
+            currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
+        }
+    }
+
+    // computer function for random cell click
+    const computerChoice = () => {
+        // random number generator
+        const getRandomCell = (max) => {
+            return Math.floor(Math.random() * max);
+        }
+        
+        let randomIndex
+
+        /* crashes because of infinite loop at the end*/
+        /*do {
+            randomIndex = getRandomCell(9);
+        } while (Gameboard.getGameboardArray()[randomIndex] !== "");*/
+
+        return randomIndex;
     }
 
     return {
