@@ -5,6 +5,10 @@ const Gameboard = (() => {
     // displays the gameboard on the DOM
     const render = () => {
         const board = document.querySelector(".gameboard");
+        const instructions = document.querySelector("#instructions");
+        if (instructions) {
+            board.removeChild(instructions);
+        }
         gameboard.forEach((cellContent, index) => {
             // create a div element with class cell
             let cell = document.createElement("div");
@@ -38,7 +42,7 @@ const Gameboard = (() => {
     return { render, updateCell }
 })();
 
-// PLAYER CREATION FACTORY FUNCTION
+// FACTORY FUNCTION FOR PLAYER CREATION
 const createPlayer = (name, mark) => {
     return {
         name,
@@ -53,23 +57,20 @@ const gameControler = (() => {
     let gameOver;
 
     const startGame = () => {
-        // create players with factory function
+        // create player with factory function, the second player is a computer
         players = [
             createPlayer(document.querySelector("#player-name").value, "X"),
             createPlayer("Computer", "O")
         ]
         // set the player who starts first
         currentPlayerIndex = 0;
+
         // set the bool that the game is not over
         gameOver = false;
 
         // render the board
         Gameboard.render();
     }
-
-    // get the current player mark
-
-
     // when click on the board happens
     const cellClick = (event) => {
         //cell index

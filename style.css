@@ -56,6 +56,15 @@ h3 {
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 }
+.gameboard #instructions {
+    font-size: 30px;
+    line-height: 70px;
+
+    grid-row: 1 / -1;
+    grid-column: 1 / -1;
+    justify-self: center;
+    align-self: center;
+}
 .cell {
     height: 145px;
     width: 145px;
