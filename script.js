@@ -173,7 +173,7 @@ const displayControler = (() =>{
         message.textContent = msgFromGame;
         const closeButton = document.createElement("button");
         closeButton.classList.add("btn");
-        closeButton.setAttribute("close");
+        closeButton.setAttribute("id", "close");
         closeButton.textContent = "OK";
 
         closeButton.addEventListener("click", () => {
@@ -189,7 +189,7 @@ const displayControler = (() =>{
         const resultModal = document.querySelector("#result");
         const message = document.querySelector(".message");
         const closeButton = document.querySelector("#close");
-        if (message || closeButton) {
+        if (message && closeButton) {
             resultModal.removeChild(message);
             resultModal.removeChild(closeButton);
         }
