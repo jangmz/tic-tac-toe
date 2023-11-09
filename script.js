@@ -32,6 +32,7 @@ const Gameboard = (() => {
         cells.forEach(cell => {
             board.removeChild(cell);
         })
+
         render();
     }
 
@@ -89,6 +90,16 @@ const gameControler = (() => {
         //gets index of the clicked cell
         let index = event.target.id;
         Gameboard.updateCell(index, players[currentPlayerIndex].mark);
+        
+        // check if we have a winner
+        if (checkForWin(Gameboard.getGameboardArray())) {
+            gameOver = true;
+            alert(`${players[currentPlayerIndex].name} won!`);
+        } else if (checkForTie(Gameboard.getGameboardArray())) {
+            gameOver = true;
+            alert("Game Tie!");
+        }
+
         // switch the current player
         currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
 
@@ -96,6 +107,9 @@ const gameControler = (() => {
         if (players[currentPlayerIndex].name === "Computer") {
             let cellIndex = computerChoice();
             Gameboard.updateCell(cellIndex, players[currentPlayerIndex].mark);
+            
+            // check if we have a winner
+
             currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
         }
     }
@@ -124,6 +138,37 @@ const gameControler = (() => {
         cellClick
     }
 })();
+
+// CHECK FOR WIN
+const checkForWin = (board) => {
+    const winningCombinations = [
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+        [0,4,8],
+        [2,4,6],
+        [0,3,6],
+        [1,4,7],
+        [2,5,8]
+    ];
+
+    // go through all the winning combinations and check if any of them matches
+    for (let i = 0; i < winningCombinations.length; i++) {
+        const [a, b, c] = winningCombinations[i];
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+            return true; // winning combination found
+        }
+    }
+    return false;
+}
+
+// CHECK FOR TIE
+const checkForTie = (board) => {
+    if (!(board.includes(""))) {
+        return true;
+    }
+    return false;
+}
 
 // START GAME button
 const startButton = document.querySelector("#start-btn");
