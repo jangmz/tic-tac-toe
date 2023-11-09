@@ -134,7 +134,7 @@ const gameControler = (() => {
     const getUserInfo = () => {
         const playerName = document.querySelector("#player-name").value;
         const playerMark = document.querySelector("#player-mark").value;
-        const computerMark = "X";
+        let computerMark = "X";
 
         if (playerMark === "X") computerMark = "O";
         
@@ -165,11 +165,23 @@ const gameControler = (() => {
 // DISPLAY CONTROLER MODULE
 const displayControler = (() =>{
     const displayResults = (msgFromGame) => {
-        const resultDiv = document.querySelector("#result");
+        const resultModal = document.querySelector("#result");
+
+        // create modal elements
         const message = document.createElement("p");
         message.classList.add("message");
         message.textContent = msgFromGame;
-        resultDiv.appendChild(message);
+        const closeButton = document.createElement("button");
+        closeButton.classList.add("btn");
+        closeButton.textContent = "OK";
+
+        closeButton.addEventListener("click", () => {
+            resultModal.close();
+        })
+
+        resultModal.appendChild(message);
+        resultModal.appendChild(closeButton);
+        resultModal.showModal();
     }
 
     const clearResults = () => {

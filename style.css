@@ -37,21 +37,18 @@ h3 {
     justify-content: center;
     gap: 20px;
 }
-.reset-btn,
-.start-btn {
+.btn {
     padding: 10px 50px;
     border-style: none;
     border-radius: 10px;
     background-color: lightskyblue;
     text-transform: uppercase;
 }
-.reset-btn:hover,
-.start-btn:hover {
+.btn:hover {
     cursor: pointer;
     box-shadow: 0 0 5px black;
 }
-.reset-btn:active,
-.start-btn:active {
+.btn:active {
     box-shadow: 0 0 5px black;
     background-color: rgb(88, 184, 243);
 }
@@ -89,4 +86,16 @@ h3 {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+#result {
+    width: 200px;
+    height: 100px;
+    border-style: none;
+    border-radius: 10px;
+}
+::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.message{
+    text-align: center;
 }
