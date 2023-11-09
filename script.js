@@ -77,16 +77,6 @@ const gameControler = (() => {
         Gameboard.render();
     }
 
-    // checks if the board has any free cells
-    const checkFreeCells = () => {
-        Gameboard.getGameboardArray().forEach(cell => {
-            if (cell === "") return true;
-            console.log("cell is free");
-        })
-        gameOver = true;
-        return false;
-    }
-
     // reset the game
     const resetGame = () => {
         for (let i = 0; i < 9; i++) {
@@ -112,17 +102,18 @@ const gameControler = (() => {
 
     // computer function for random cell click
     const computerChoice = () => {
-        // random number generator
-        const getRandomCell = (max) => {
-            return Math.floor(Math.random() * max);
-        }
-        
-        let randomIndex
+        const emptyCells = [];
+        const gameboardArray = Gameboard.getGameboardArray();
 
-        /* crashes because of infinite loop at the end*/
-        do {
-            randomIndex = getRandomCell(9);
-        } while (Gameboard.getGameboardArray()[randomIndex] !== "");
+        // find all empty cells and save indexes
+        for (let i = 0; i < gameboardArray.length; i++) {
+            if(gameboardArray[i] === "") {
+                emptyCells.push(i);
+            }
+        }
+
+        // choose a random index from available empty cells
+        const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
         return randomIndex;
     }
