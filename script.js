@@ -77,9 +77,21 @@ const gameControler = (() => {
         Gameboard.render();
     }
 
+    // checks if the board has any free cells
+    const checkFreeCells = () => {
+        Gameboard.getGameboardArray().forEach(cell => {
+            if (cell === "") return true;
+            console.log("cell is free");
+        })
+        gameOver = true;
+        return false;
+    }
+
     // reset the game
     const resetGame = () => {
-
+        for (let i = 0; i < 9; i++) {
+            Gameboard.updateCell(i, "");
+        }
     }
 
     // when click on the board happens
@@ -108,15 +120,16 @@ const gameControler = (() => {
         let randomIndex
 
         /* crashes because of infinite loop at the end*/
-        /*do {
+        do {
             randomIndex = getRandomCell(9);
-        } while (Gameboard.getGameboardArray()[randomIndex] !== "");*/
+        } while (Gameboard.getGameboardArray()[randomIndex] !== "");
 
         return randomIndex;
     }
 
     return {
         startGame,
+        resetGame,
         cellClick
     }
 })();
@@ -131,5 +144,6 @@ startButton.addEventListener("click", () =>{
 // RESET GAME button
 const resetButton = document.querySelector("#reset-btn");
 resetButton.addEventListener("click", () => {
-    alert("reset");
+    //alert("reset");
+    gameControler.resetGame();
 });
