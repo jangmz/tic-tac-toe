@@ -64,10 +64,8 @@ const gameControler = (() => {
 
     const startGame = () => {
         // create player with factory function, the second player is a computer
-        players = [
-            createPlayer(document.querySelector("#player-name").value, "X"),
-            createPlayer("Computer", "O")
-        ];
+        getUserInfo();
+
         // set the player who starts first
         currentPlayerIndex = Math.floor(Math.random() * 2);
 
@@ -131,6 +129,19 @@ const gameControler = (() => {
         checkResult();
 
         currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
+    }
+
+    const getUserInfo = () => {
+        const playerName = document.querySelector("#player-name").value;
+        const playerMark = document.querySelector("#player-mark").value;
+        const computerMark = "X";
+
+        if (playerMark === "X") computerMark = "O";
+        
+        players = [
+            createPlayer(playerName, playerMark),
+            createPlayer("Computer", computerMark)
+        ];
     }
 
     // check the result

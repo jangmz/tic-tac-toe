@@ -15,13 +15,19 @@
 <body>
     <h1>Tic Tac Toe</h1>
     <div class="container">
-        <label for="name">Player</label>
-        <input type="text" id="player-name">
-        <h3>Select your mark</h3>
-        <div class="mark-selection">
-            <input type="button" id="x" class="mark-sel-btn" value="X"> 
-            <input type="button" id="o" class="mark-sel-btn" value="O">
-        </div>
+        <form action="" method="GET" class="player-input">
+            <div class="player-name">
+                <label for="name">Player name</label>
+                <input type="text" id="player-name">
+            </div>
+            <div class="mark-selection">
+                <label for="mark-selection">Select your mark</label>
+                <select name="player-mark" id="player-mark" >
+                    <option value="X" selected>X</option>
+                    <option value="O">O</option>
+                </select>
+            </div>
+        </form>
         <div class="game-control">
             <button id="start-btn" class="start-btn">Start Game</button>
             <button id="reset-btn" class="reset-btn">Reset Game</button>
