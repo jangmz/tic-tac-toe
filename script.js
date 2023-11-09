@@ -67,15 +67,17 @@ const gameControler = (() => {
         players = [
             createPlayer(document.querySelector("#player-name").value, "X"),
             createPlayer("Computer", "O")
-        ]
+        ];
         // set the player who starts first
-        currentPlayerIndex = 0;
+        currentPlayerIndex = Math.floor(Math.random() * 2);
+
+        if (currentPlayerIndex === 1) computerChoice();
 
         // set the bool that the game is not over
         gameOver = false;
 
-        // render the board
-        Gameboard.render();
+        // render the board if a person started the game first
+        if (currentPlayerIndex === 1) Gameboard.render();
     }
 
     // reset the game
@@ -83,34 +85,30 @@ const gameControler = (() => {
         for (let i = 0; i < 9; i++) {
             Gameboard.updateCell(i, "");
         }
+        displayControler.clearResults();
+        gameOver = false;
+        startGame;
+
+        if (currentPlayerIndex === 1) {
+            computerChoice();
+        }
     }
 
     // when click on the board happens
     const cellClick = (event) => {
-        //gets index of the clicked cell
-        let index = event.target.id;
-        Gameboard.updateCell(index, players[currentPlayerIndex].mark);
-        
-        // check if we have a winner
-        if (checkForWin(Gameboard.getGameboardArray())) {
-            gameOver = true;
-            alert(`${players[currentPlayerIndex].name} won!`);
-        } else if (checkForTie(Gameboard.getGameboardArray())) {
-            gameOver = true;
-            alert("Game Tie!");
-        }
-
-        // switch the current player
-        currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
-
-        // check if the current player is computer and call its function
-        if (players[currentPlayerIndex].name === "Computer") {
-            let cellIndex = computerChoice();
-            Gameboard.updateCell(cellIndex, players[currentPlayerIndex].mark);
+        if (gameOver === false) {
+            //gets index of the clicked cell
+            let index = event.target.id;
+            Gameboard.updateCell(index, players[currentPlayerIndex].mark);
             
             // check if we have a winner
+            checkResult();
 
+            // switch the current player
             currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
+
+            // check if the current player is computer and call its function
+            if (players[currentPlayerIndex].name === "Computer" && gameOver === false) computerChoice();
         }
     }
 
@@ -128,14 +126,52 @@ const gameControler = (() => {
 
         // choose a random index from available empty cells
         const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        Gameboard.updateCell(randomIndex, players[currentPlayerIndex].mark);
+        
+        checkResult();
 
-        return randomIndex;
+        currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
+    }
+
+    // check the result
+    const checkResult = () => {
+        if (checkForWin(Gameboard.getGameboardArray())) {
+            gameOver = true;
+            displayControler.displayResults(`${players[currentPlayerIndex].name} won!`);
+        } else if (checkForTie(Gameboard.getGameboardArray())) {
+            gameOver = true;
+            displayControler.displayResults("It's a tie!");
+        }
     }
 
     return {
         startGame,
         resetGame,
         cellClick
+    }
+})();
+
+// DISPLAY CONTROLER MODULE
+const displayControler = (() =>{
+    const displayResults = (msgFromGame) => {
+        const resultDiv = document.querySelector("#result");
+        const message = document.createElement("p");
+        message.classList.add("message");
+        message.textContent = msgFromGame;
+        resultDiv.appendChild(message);
+    }
+
+    const clearResults = () => {
+        const resultDiv = document.querySelector("#result");
+        const message = document.querySelector(".message");
+        if (message) {
+            resultDiv.removeChild(message);
+        }
+    }
+
+    return {
+        displayResults,
+        clearResults
     }
 })();
 
